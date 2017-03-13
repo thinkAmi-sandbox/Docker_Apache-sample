@@ -1,0 +1,124 @@
+# Python 3.6.0のイメージをもとに作成
+FROM python:3.6.0-alpine
+
+#-------------------
+# ここからコピペ開始
+
+# ensure www-data user exists
+RUN set -x \
+	&& addgroup -g 82 -S www-data \
+	&& adduser -u 82 -D -S -G www-data www-data
+# 82 is the standard uid/gid for "www-data" in Alpine
+# http://git.alpinelinux.org/cgit/aports/tree/main/apache2/apache2.pre-install?h=v3.3.2
+# http://git.alpinelinux.org/cgit/aports/tree/main/lighttpd/lighttpd.pre-install?h=v3.3.2
+# http://git.alpinelinux.org/cgit/aports/tree/main/nginx-initscripts/nginx-initscripts.pre-install?h=v3.3.2
+
+ENV HTTPD_PREFIX /usr/local/apache2
+ENV PATH $HTTPD_PREFIX/bin:$PATH
+RUN mkdir -p "$HTTPD_PREFIX" \
+	&& chown www-data:www-data "$HTTPD_PREFIX"
+WORKDIR $HTTPD_PREFIX
+
+ENV HTTPD_VERSION 2.4.25
+ENV HTTPD_SHA1 bd6d138c31c109297da2346c6e7b93b9283993d2
+
+# https://issues.apache.org/jira/browse/INFRA-8753?focusedCommentId=14735394#comment-14735394
+ENV HTTPD_BZ2_URL https://www.apache.org/dyn/closer.cgi?action=download&filename=httpd/httpd-$HTTPD_VERSION.tar.bz2
+# not all the mirrors actually carry the .asc files :'(
+ENV HTTPD_ASC_URL https://www.apache.org/dist/httpd/httpd-$HTTPD_VERSION.tar.bz2.asc
+
+# see https://httpd.apache.org/docs/2.4/install.html#requirements
+RUN set -x \
+	&& runDeps=' \
+		apr-dev \
+		apr-util-dev \
+		perl \
+	' \
+	&& apk add --no-cache --virtual .build-deps \
+		$runDeps \
+		ca-certificates \
+		gcc \
+		gnupg \
+		libc-dev \
+		# mod_proxy_html mod_xml2enc
+		libxml2-dev \
+		# mod_lua
+		lua-dev \
+		make \
+		# no mod_session_crypto: openssl-dev in alpine doesn't work, but libressl is edge only (and brings conflicts with edge packages)
+		openssl \
+		openssl-dev \
+		pcre-dev \
+		tar \
+		zlib-dev \
+	# https://bugs.alpinelinux.org/issues/6375
+	&& echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories \
+	# mod_http2
+	&& apk add --no-cache nghttp2-dev@edge \
+	\
+	&& wget -O httpd.tar.bz2 "$HTTPD_BZ2_URL" \
+	&& echo "$HTTPD_SHA1 *httpd.tar.bz2" | sha1sum -c - \
+# see https://httpd.apache.org/download.cgi#verify
+	&& wget -O httpd.tar.bz2.asc "$HTTPD_ASC_URL" \
+	&& export GNUPGHOME="$(mktemp -d)" \
+	&& gpg --keyserver ha.pool.sks-keyservers.net --recv-keys A93D62ECC3C8EA12DB220EC934EA76E6791485A8 \
+	&& gpg --batch --verify httpd.tar.bz2.asc httpd.tar.bz2 \
+	&& rm -r "$GNUPGHOME" httpd.tar.bz2.asc \
+	\
+	&& mkdir -p src \
+	&& tar -xf httpd.tar.bz2 -C src --strip-components=1 \
+	&& rm httpd.tar.bz2 \
+	&& cd src \
+	\
+	&& ./configure \
+		--prefix="$HTTPD_PREFIX" \
+		--enable-mods-shared=reallyall \
+	&& make -j "$(getconf _NPROCESSORS_ONLN)" \
+	&& make install \
+	\
+	&& cd .. \
+	&& rm -r src man manual \
+	\
+	&& sed -ri \
+		-e 's!^(\s*CustomLog)\s+\S+!\1 /proc/self/fd/1!g' \
+		-e 's!^(\s*ErrorLog)\s+\S+!\1 /proc/self/fd/2!g' \
+		"$HTTPD_PREFIX/conf/httpd.conf" \
+	\
+	&& runDeps="$runDeps $( \
+		scanelf --needed --nobanner --recursive /usr/local \
+			| awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
+			| sort -u \
+			| xargs -r apk info --installed \
+			| sort -u \
+	)" \
+	# `apk update` instead of --no-cache since `apk del` gets confused with `@edge` packages if there is no cache
+	&& apk update \
+	&& apk add --virtual .httpd-rundeps $runDeps \
+	&& apk del .build-deps \
+	&& rm -rf /var/cache/apk/*
+
+# ここまでコピペ
+#-------------------
+
+# GitHub上の「httpd-foreground」をローカルに持ってきて、それをさらにDockerへコピー
+COPY httpd-foreground /usr/local/bin/
+
+# 何もしないままだと「/bin/sh: httpd-foreground: Permission denied」
+# ローカルのパーミッションを変えるよりも、Docker上だけでpermissionを変えてあげる
+# http://stackoverflow.com/questions/38882654/docker-entrypoint-running-bash-script-gets-permission-denied
+RUN ["chmod", "+x", "/usr/local/bin/httpd-foreground"]
+
+
+# ローカルのhttpd.confをコピー
+COPY httpd.conf /usr/local/apache2/conf/
+
+# ローカルのpythonスクリプトをコピーし、パーミッションを追加
+COPY hello.py /usr/local/apache2/cgi-bin/
+RUN ["chmod", "755", "/usr/local/apache2/cgi-bin/hello.py"]
+
+
+EXPOSE 80
+
+# JSONだとうまく動かないっぽい
+# http://stackoverflow.com/questions/27158840/docker-executable-file-not-found-in-path
+CMD httpd-foreground
