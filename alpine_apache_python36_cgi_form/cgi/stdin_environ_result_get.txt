@@ -1,0 +1,34 @@
+--------------------
+stdin:
+
+--------------------
+os.environ:
+
+HTTP_HOST: localhost:8081
+HTTP_CONNECTION: keep-alive
+HTTP_UPGRADE_INSECURE_REQUESTS: 1
+HTTP_USER_AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+HTTP_ACCEPT: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+HTTP_REFERER: http://localhost:8081/form_get_stdin.html
+HTTP_ACCEPT_ENCODING: gzip, deflate, sdch, br
+HTTP_ACCEPT_LANGUAGE: ja,en-US;q=0.8,en;q=0.6
+PATH: /usr/local/apache2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+SERVER_SIGNATURE: 
+SERVER_SOFTWARE: Apache/2.4.25 (Unix)
+SERVER_NAME: localhost
+SERVER_ADDR: 172.17.0.2
+SERVER_PORT: 8081
+REMOTE_ADDR: 172.17.0.1
+DOCUMENT_ROOT: /usr/local/apache2/htdocs
+REQUEST_SCHEME: http
+CONTEXT_PREFIX: /cgi-bin/
+CONTEXT_DOCUMENT_ROOT: /usr/local/apache2/cgi-bin/
+SERVER_ADMIN: you@example.com
+SCRIPT_FILENAME: /usr/local/apache2/cgi-bin/stdin_environ.py
+REMOTE_PORT: 59532
+GATEWAY_INTERFACE: CGI/1.1
+SERVER_PROTOCOL: HTTP/1.1
+REQUEST_METHOD: GET
+QUERY_STRING: subject=%E3%82%BF%E3%82%A4%E3%83%88%E3%83%AB&fruit=%E3%82%8A%E3%82%93%E3%81%94&fruit_size=%E5%B0%8F%E3%81%95%E3%81%84%E3%82%82%E3%81%AE&quantity=2%E5%80%8B&accessories=%E5%AE%B9%E5%99%A8&takeout=%E8%87%AA%E5%88%86%E3%81%A7%E6%8C%81%E3%81%A1%E5%B8%B0%E3%82%8B&gift=%E8%B4%88%E3%82%8A%E7%89%A9%E3%81%AB%E3%81%99%E3%82%8B&hidden_valude=%E9%9A%A0%E3%81%97%E3%83%87%E3%83%BC%E3%82%BF&memo=%E4%B8%80%E8%A1%8C%E7%9B%AE%0D%0A%E4%BA%8C%E8%A1%8C%E7%9B%AE
+REQUEST_URI: /cgi-bin/stdin_environ.py?subject=%E3%82%BF%E3%82%A4%E3%83%88%E3%83%AB&fruit=%E3%82%8A%E3%82%93%E3%81%94&fruit_size=%E5%B0%8F%E3%81%95%E3%81%84%E3%82%82%E3%81%AE&quantity=2%E5%80%8B&accessories=%E5%AE%B9%E5%99%A8&takeout=%E8%87%AA%E5%88%86%E3%81%A7%E6%8C%81%E3%81%A1%E5%B8%B0%E3%82%8B&gift=%E8%B4%88%E3%82%8A%E7%89%A9%E3%81%AB%E3%81%99%E3%82%8B&hidden_valude=%E9%9A%A0%E3%81%97%E3%83%87%E3%83%BC%E3%82%BF&memo=%E4%B8%80%E8%A1%8C%E7%9B%AE%0D%0A%E4%BA%8C%E8%A1%8C%E7%9B%AE
+SCRIPT_NAME: /cgi-bin/stdin_environ.py
