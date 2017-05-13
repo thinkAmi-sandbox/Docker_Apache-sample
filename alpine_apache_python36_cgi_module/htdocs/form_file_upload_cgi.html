@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>例</title>
+</head>
+
+<body>
+    <h1>ファイルアップロードサンプル(一気に読み込み)</h1>
+    <form action="/cgi-bin/cgi_file_upload.py" method="POST" enctype="multipart/form-data">
+        <!--input text-->
+        <label for="id_upload_file">対象ファイル</label>
+        <input type="file" id="id_upload_file" name="upload_file">
+
+        <!--submit-->
+        <p>
+            <input type="submit">
+        </p>
+    </form>
+</body>
+
+</html>
