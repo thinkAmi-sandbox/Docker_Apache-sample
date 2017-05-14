@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>例</title>
+</head>
+
+<body>
+    <h1>SSIサンプル(CGI: XBitHack on)</h1>
+    <h2>CGIにcontent-typeあり</h2>
+    <ul>
+        <li>include virtual: <!--#include virtual="/cgi-bin/with_content_type.py" --></li>
+        <li>exec cgi: <!--#exec cgi="/cgi-bin/with_content_type.py" --></li>
+        <li>exec cmd: <!--#exec cmd="/usr/local/apache2/cgi-bin/with_content_type.py" --></li>
+        <li>exec cmd python3: <!--#exec cmd="python3 /usr/local/apache2/cgi-bin/with_content_type.py" --></li>
+    </ul>
+    <h2>CGIにcontent-type無し</h2>
+    <ul>
+        <li>include virtual: <!--#include virtual="/cgi-bin/witout_content_type.py" --></li>
+        <li>exec cgi: <!--#exec cgi="/cgi-bin/witout_content_type.py" --></li>
+        <li>exec cmd: <!--#exec cmd="/usr/local/apache2/cgi-bin/witout_content_type.py" --></li>
+        <li>exec cmd python3: <!--#exec cmd="python3 /usr/local/apache2/cgi-bin/witout_content_type.py" --></li>
+    </ul>
+</body>
+</html>

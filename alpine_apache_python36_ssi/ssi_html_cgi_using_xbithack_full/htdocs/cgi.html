@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>例</title>
+</head>
+
+<body>
+    <h1>SSIサンプル(CGI)</h1>
+    <p>CGIの時間(UTC)：<!--#include virtual="/cgi-bin/now.py" --></p>
+    <p>JSの時間(JST) ：<span id="js_time"></span></p>
+
+    <script>
+        document.getElementById("js_time").innerHTML = function(){
+            var now = new Date();
+            var year = now.getFullYear();
+            var mon = now.getMonth() + 1;
+            var day = now.getDate();
+            var hour = now.getHours();
+            var min = now.getMinutes();
+            var sec = now.getSeconds();
+
+            return `${year}-${mon}-${day} ${hour}:${min}:${sec}`
+        }();
+    </script>
+</body>
+</html>
