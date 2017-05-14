@@ -2,7 +2,7 @@
 import cgi
 
 # HTTPレスポンスヘッダ
-print('Content-Type: text/plain;charset=utf-8\n')
+print('Content-Type: text/plain;charset=utf-8')
 print('')
 
 form = cgi.FieldStorage()

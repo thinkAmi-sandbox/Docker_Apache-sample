@@ -7,8 +7,8 @@ import os
 import sys
 
 # HTTPレスポンスヘッダ
-print('Content-Type: text/plain;charset=utf-8\n')
-print("\n")
+print('Content-Type: text/plain;charset=utf-8')
+print('')
 
 # HTTPレスポンスボディ
 # Apacheでは標準入力と環境変数を使ってブラウザとサーバがデータのやり取りをするため、
