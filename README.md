@@ -33,6 +33,11 @@
   - Dockerfile environment
     - Alpine3.5
     - base Dockerfile: httpd:2.4.25-alpine, frolvlad/alpine-python3
+- alpine_apache_python36_cookie/
+  - run Apache2.4.25 + Python3.6.1 + Python CGI Script on Docker
+  - Dockerfile environment
+    - Alpine3.5
+    - base Dockerfile: httpd:2.4.25-alpine, frolvlad/alpine-python3
 
 　  
 # License
@@ -49,3 +54,4 @@ The Unlicense.
 - [Docker + Alpine3.5 + Apache2.4 + Python3.6で、フォームのデータを標準モジュールcgiで受け取ってみた - メモ的な思考的な](http://thinkami.hatenablog.com/entry/2017/05/13/224427)
 - [Docker + Alpine3.5 + Apache2.4 + Python3.6で、SSIを使ってみた - メモ的な思考的な](http://thinkami.hatenablog.com/entry/2017/05/16/070754)
 - [Docker + Alpine3.5 + Apache2.4 + Python3.6で、CGIのリダイレクトを使ってみた - メモ的な思考的な](http://thinkami.hatenablog.com/entry/2017/05/21/080250)
+- [Docker + Alpine3.5 + Apache2.4 + Python3.6で、CGIのCookieを使ってみた - メモ的な思考的な](http://thinkami.hatenablog.com/entry/2017/05/22/061030)
