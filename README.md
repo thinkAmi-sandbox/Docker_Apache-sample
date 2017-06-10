@@ -39,10 +39,20 @@
     - Alpine3.5
     - base Dockerfile: httpd:2.4.25-alpine, frolvlad/alpine-python3
 - alpine_apache_python27_mod_python
-  - run Apache2.4.25 + Python2.7.13 + mod_python on Docker
+  - run Apache2.4.25 (prefork MPM) + Python2.7.13 + mod_python on Docker
   - Dockerfile environment
     - Alpine3.5
     - base Dockerfile: httpd:2.4.25-alpine, frolvlad/alpine-python3
+- alpine_apache_python3x_mod_python
+  - run Apache2.4.25 (prefork MPM) + Python3.6 + mod_python on Docker
+  - Dockerfile environment
+    - Alpine3.5
+    - base Dockerfile: httpd:2.4.25-alpine, frolvlad/alpine-python3
+- alpine_apache_prefork
+  - run Apache2.4.25 (prefork MPM) on Docker
+  - Dockerfile environment
+    - Alpine3.5
+    - base Dockerfile: httpd:2.4.25-alpine
 
 　  
 # License
@@ -61,3 +71,4 @@ The Unlicense.
 - [Docker + Alpine3.5 + Apache2.4 + Python3.6で、CGIのリダイレクトを使ってみた - メモ的な思考的な](http://thinkami.hatenablog.com/entry/2017/05/21/080250)
 - [Docker + Alpine3.5 + Apache2.4 + Python3.6で、CGIのCookieを使ってみた - メモ的な思考的な](http://thinkami.hatenablog.com/entry/2017/05/22/061030)
 - [Docker + Alpine3.5 + Apache2.4 + Python2.7で、mod_pythonをソースコードからインストールしてみた - メモ的な思考的な](http://thinkami.hatenablog.com/entry/2017/06/01/223519)
+- [Docker + Alpine3.5 + Apache2.4 + Python3.xで、mod_pythonをソースコードからインストールしてみた - メモ的な思考的な](http://thinkami.hatenablog.com/entry/2017/06/10/104538)
